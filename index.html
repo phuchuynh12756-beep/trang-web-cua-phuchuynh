@@ -3,65 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Web Của Phúc Huỳnh</title>
+    <title>Kho Code của Phúc Huỳnh</title>
+    <!-- FontAwesome icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
 
         body {
+            background-color: #f4f6f9;
+            color: #333;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
+        }
+
+        header {
+            background: linear-gradient(135deg, #00979d, #006468);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1rem;
         }
 
         .container {
-            text-align: center;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 600px;
-            width: 90%;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
         }
 
-        p {
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #00979d;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
             font-size: 1.2rem;
-            opacity: 0.9;
         }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            p {
-                font-size: 1rem;
-            }
+        .code-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-header i {
+            font-size: 1.8rem;
+            color: #00979d;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 1.2rem;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: #00979d;
+            color: white;
+            padding: 0.7rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-download:hover {
+            background-color: #007a7e;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.2rem;
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
 
+    <header>
+        <h1>Kho Code của Phúc Huỳnh</h1>
+        <p>Tổng hợp và chia sẻ các chương trình Arduino & ESP32 thực tế</p>
+    </header>
+
     <div class="container">
-        <h1>Chào mừng đến với trang web của Phúc Huỳnh</h1>
-        <p>Chúc bạn có một trải nghiệm tuyệt vời tại đây!</p>
+        <!-- Ô tìm kiếm -->
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Tìm kiếm file code..." onkeyup="filterCards()">
+        </div>
+
+        <!-- Danh sách file code -->
+        <div class="code-grid" id="codeGrid">
+
+            <!-- Card 1: Bad Apple ESP32 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <i class="fa-solid fa-play"></i>
+                        <div class="card-title">Bad Apple ESP32</div>
+                    </div>
+                    <div class="card-desc">Code trình chiếu video Bad Apple trên màn hình hiển thị sử dụng vi điều khiển ESP32.</div>
+                </div>
+                <a href="files/bad_apple_esp32.zip" download class="btn-download">
+                    <i class="fa-solid fa-download"></i> Tải về (.zip)
+                </a>
+            </div>
+
+            <!-- Card 2: mochi kèm máy chép phao và trò chơi -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <i class="fa-solid fa-robot"></i>
+                        <div class="card-title">Chat AI</div>
+                    </div>
+                    <div class="card-desc">Dự án tích hợp phao kết nối với vi điều khiển/esp32 c3 super mini.</div>
+                </div>
+                <a href="files/chatAI.zip" download class="btn-download">
+                    <i class="fa-solid fa-download"></i> Tải về (.zip)
+                </a>
+            </div>
+
+        </div>
     </div>
 
+    <footer>
+        <p>&copy; 2026 Kho Code của Phúc Huỳnh. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function filterCards() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').innerText.toLowerCase();
+                const desc = card.querySelector('.card-desc').innerText.toLowerCase();
+
+                if (title.includes(input) || desc.includes(input)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
